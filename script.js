@@ -245,14 +245,24 @@ var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     half = set.getBoundingClientRect().width;
   }
 
-  /* pause only where there is a real pointer — never on touch */
+   var paused = false;
+
+  /* tap or click a card to stop the movement — tap again to start it */
+  el.addEventListener("click", function (e) {
+    if (!e.target.closest(".shot")) return;
+    paused = !paused;
+    target = paused ? 0 : SPEED;
+    el.classList.toggle("is-paused", paused);
+  });
+
+  /* hover pause on pointer devices — never overrides a tap-pause */
   if (window.matchMedia("(hover: hover)").matches) {
     el.addEventListener("mouseenter", function(){ target = 0; });
-    el.addEventListener("mouseleave", function(){ target = SPEED; });
+    el.addEventListener("mouseleave", function(){ if (!paused) target = SPEED; });
     el.addEventListener("focusin",    function(){ target = 0; });
-    el.addEventListener("focusout",   function(){ target = SPEED; });
+    el.addEventListener("focusout",   function(){ if (!paused) target = SPEED; });
   }
-
+  
   /* stop the loop while the section is off screen */
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
