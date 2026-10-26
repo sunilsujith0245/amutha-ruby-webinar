@@ -933,45 +933,87 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
 .coach__story p{font-size:15px;line-height:1.74;color:#C9BFC1}
 .coach__story strong{color:var(--white);font-weight:700}
 
-/* --- VIDEO: centred frame --- */
-.vid{
-  width:min(100%,680px);
+
+
+
+
+
+
+/* --- MEDIA ROW: video left, images right --- */
+
+/* --- MEDIA ROW: video left, photos right --- */
+.media{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);
+  gap:16px;align-items:stretch;
+  width:min(100%,1040px);
   margin:clamp(30px,3.2vw,44px) auto 0;
-  padding:clamp(10px,1.2vw,16px);
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(216,179,74,.34);
-  box-shadow:0 30px 70px rgba(0,0,0,.42);
 }
 
+.vid{
+  display:flex;flex-direction:column;
+  min-width:0;margin:0;
+  padding:clamp(10px,1.1vw,14px);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(216,179,74,.34);
+  box-shadow:0 26px 60px rgba(0,0,0,.42);
+}
 .vid__cap{
-  display:flex;align-items:baseline;gap:12px;
-  padding:0 2px clamp(12px,1.4vw,18px);
+  display:flex;align-items:baseline;gap:11px;
+  padding:0 2px clamp(10px,1.1vw,14px);
 }
 .vid__k{
   font-size:9px;font-weight:700;letter-spacing:.2em;
   text-transform:uppercase;color:var(--gold);
 }
-.vid__v{font-family:var(--display);font-size:16px;font-weight:500;color:#EFE6E8}
+.vid__v{font-family:var(--display);font-size:15px;font-weight:500;color:#EFE6E8}
 
 .vid__stage{
-  display:flex;align-items:center;justify-content:center;
+  flex:1;display:flex;align-items:center;justify-content:center;
+  min-height:0;
   background:#0D090B;
   border:1px solid rgba(255,255,255,.08);
 }
-.vid__frame{
-  position:relative;width:100%;
-  aspect-ratio:16/9;
-  overflow:hidden;
+.vid__frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden}
+.vid__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+
+/* photo pair — square frames, side by side */
+.gal{
+  position:relative;overflow:hidden;
+  min-width:0;min-height:0;aspect-ratio:2/1;
+  padding:clamp(9px,1vw,13px);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(216,179,74,.34);
+  box-shadow:0 26px 60px rgba(0,0,0,.42);
 }
-.vid__frame iframe{
-  position:absolute;inset:0;
-  width:100%;height:100%;border:0;display:block;
+.gal__win{position:absolute;inset:clamp(9px,1vw,13px);overflow:hidden}
+.gal__track{display:flex;gap:10px;height:100%;will-change:transform}
+.gal:not(.is-moving) .gal__track{justify-content:center}
+.gal__item{
+  position:relative;flex:none;height:100%;aspect-ratio:1/1;
+  margin:0;overflow:hidden;border-radius:7px;
+  background:var(--dark-2);border:1px solid rgba(255,255,255,.08);
 }
+.gal__item img{display:block;width:100%;height:100%;object-fit:cover}
+.gal.is-moving .gal__win{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+
+
+
+
+
+
+
+
+
 
 
 /* 13. THE SHIFT — 06 — file tabs
    Tabs drop in from above, each folder opens downward,
    then the lines slide in from opposite sides. */
+
 .fold{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1599,7 +1641,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   .thread::before{left:23px}
   .thr__node{left:-58px;width:48px;height:48px;font-size:17px}
   .coach{grid-template-columns:minmax(0,270px) minmax(0,1fr);column-gap:36px}
-  .vid{width:min(100%,600px)}
+    .media{width:min(100%,920px);gap:14px}
   .gtee{column-gap:34px;grid-template-columns:minmax(0,165px) minmax(0,1fr)}
   .meta li{padding:13px 13px 15px}
   .meta__v{font-size:14px}
@@ -1673,7 +1715,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   .coach__points li{text-align:left}
   .coach__story{margin-inline:auto;text-align:left}
 
-  .vid{margin-top:28px;width:min(100%,520px)}
+   .media{grid-template-columns:minmax(0,1fr);gap:14px;width:min(100%,560px);margin-top:28px}
 
   /* file tabs stack */
   .fold{grid-template-columns:1fr;gap:18px}
@@ -1723,8 +1765,26 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   .vt__btn svg{width:19px;height:19px}
 
 
-
+  .media{grid-template-columns:1fr;gap:13px;width:min(100%,460px)}
+  .media .vid{order:1}
+  .media .gal{order:2}
+  .gal{height:260px}
+  
 }
+
+
+@media (max-width:900px){
+  .media{
+    grid-template-columns:minmax(0,1fr);
+    width:min(100%,560px);
+    gap:14px;
+    margin-top:28px;
+  }
+  /* taller frame: bigger photos, and always room to swipe */
+  .gal{aspect-ratio:1.5/1}
+}
+
+
 
 
 /* 23. RESPONSIVE — phones */
@@ -1784,9 +1844,16 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   .coach__points li{font-size:14.4px;padding:12px 0}
   .coach__story p{font-size:14.4px;line-height:1.72}
 
-  .vid{padding:9px;margin-top:24px;width:min(100%,440px)}
+  .media{margin-top:24px;gap:12px}
+  .vid{padding:9px}
   .vid__cap{padding-bottom:9px}
   .vid__v{font-size:14px}
+  .gal{padding:9px}
+  .gal__win{inset:9px}
+
+
+
+
 
   .rail{--gap:10px;--pad:14px;--band:min(290px, calc(100vw - 2 * var(--pad)))}
 
@@ -1893,4 +1960,53 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   text-transform:uppercase;color:var(--gold);
 }
 .foot__legal p{font-size:11px;line-height:1.65;color:rgba(255,255,255,.42)
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   26. MEDIA ROW — MOBILE CORRECTION
+   Must stay at the VERY END of this file.
+========================================================= */
+@media (max-width:1060px){
+  .media{width:min(100%,920px);gap:14px}
+}
+
+@media (max-width:900px){
+  .media{
+    grid-template-columns:minmax(0,1fr);
+    width:min(100%,560px);
+    gap:14px;
+    margin-top:28px;
+  }
+}
+
+@media (max-width:600px){
+  .media{margin-top:24px;gap:12px}
+  .vid{padding:9px}
+  .vid__cap{padding-bottom:9px}
+  .vid__v{font-size:14px}
+  .gal{padding:9px}
+  .gal__win{inset:9px}
+}
+
+@media (max-width:900px){
+  .media{
+    grid-template-columns:minmax(0,1fr);
+    width:min(100%,560px);
+    gap:14px;
+    margin-top:28px;
+  }
+  /* taller frame: bigger photos, and always room to swipe */
+  .gal{aspect-ratio:1.5/1}
+  /* each photo keeps its own shape — nothing is cut off */
+  .gal__item{aspect-ratio:auto;width:auto}
+  .gal__item img{width:auto;height:100%;object-fit:contain}
 }
