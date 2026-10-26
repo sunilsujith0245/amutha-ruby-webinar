@@ -8,11 +8,10 @@
 <!-- EDIT: page title and description -->
 <title>&#8377;199 Live Webinar | Amutha Ruby</title>
 <meta name="description" content="A live webinar with Amutha Ruby, Life Transformation Coach. There is nothing wrong with you. Then why does your life feel wrong?">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Petrona:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Petrona:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 
 <link rel="stylesheet" href="style.css">
 </head>
@@ -80,7 +79,7 @@
       </span>
       <span class="meta__k">Date</span>
     </span>
-    <span class="meta__v">Sunday, 2 November 2026</span>
+    <span class="meta__v">2nd Nov 2026</span>
   </li>
 
   <li data-reveal="soft">
@@ -93,7 +92,7 @@
       </span>
       <span class="meta__k">Time</span>
     </span>
-    <span class="meta__v">7:00 PM to 10:00 PM IST</span>
+    <span class="meta__v">7 – 10 PM (IST)</span>
   </li>
 
   <li data-reveal="soft">
@@ -654,27 +653,43 @@
 
     </div>
 
-    <!-- EDIT: replace VIDEO_ID with your YouTube video id -->
-       <figure class="vid" data-reveal="frame">
-      <figcaption class="vid__cap">
-        <span class="vid__k">Watch</span>
-        <span class="vid__v">Her story, in her own words</span>
-      </figcaption>
 
-      <div class="vid__stage">
-        <div class="vid__frame">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/XIpgNRsd3jU?rel=0"
-            title="Amutha Ruby — her story"
-            loading="lazy"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen></iframe>
+    <!-- MEDIA ROW — video left, photos right -->
+    <div class="media">
+
+      <!-- EDIT: replace VIDEO_ID with your YouTube video id -->
+      <figure class="vid" data-reveal="frame">
+        <figcaption class="vid__cap">
+          <span class="vid__k">Watch</span>
+          <span class="vid__v">Her story, in her own words</span>
+        </figcaption>
+
+        <div class="vid__stage">
+          <div class="vid__frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/XIpgNRsd3jU?rel=0"
+              title="Amutha Ruby — her story"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+      </figure>
+
+      <!-- EDIT: add or remove photos. 2 = still. 3 or more = moves on its own. -->
+      <div class="gal" data-gal data-reveal="frame" style="--d:.12s">
+        <div class="gal__win">
+          <div class="gal__track">
+            <figure class="gal__item"><img src="image/award 1.jpeg" alt="Amutha with her students" loading="lazy"></figure>
+            <figure class="gal__item"><img src="image/award g2.jpeg" alt="A live coaching session" loading="lazy"></figure>
+            <!-- <figure class="gal__item"><img src="image/g3.jpg" alt="On stage" loading="lazy"></figure>
+            <figure class="gal__item"><img src="image/g4.jpg" alt="Workshop day" loading="lazy"></figure> -->
+          </div>
         </div>
       </div>
-    </figure>
 
-  </div>
+    </div>
 </section>
 
 
@@ -896,3 +911,14 @@
 <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
