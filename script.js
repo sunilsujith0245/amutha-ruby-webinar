@@ -333,3 +333,156 @@ document.addEventListener("click", function (e) {
     'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
   btn.replaceWith(f);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 12. COACH PHOTO ROW
+   Swipe or drag the photos sideways at any time.
+   With 3 or more photos the row also glides on its own and loops. */
+(function gallery(){
+  document.querySelectorAll("[data-gal]").forEach(function (gal) {
+    var win   = gal.querySelector(".gal__win");
+    var track = gal.querySelector(".gal__track");
+    if (!win || !track) return;
+
+    var SPEED = 22;
+    var off = 0, last = null, span = 0, loop = false;
+    var go = false, drag = false, sx = 0, so = 0;
+
+    gal.style.touchAction = "pan-y";
+    gal.style.cursor = "grab";
+    gal.querySelectorAll("img").forEach(function (i) { i.draggable = false; });
+
+    function overflowing(){ return track.scrollWidth > win.clientWidth + 2; }
+
+    function measure(){
+      if (loop) {
+        var set = track.firstElementChild;
+        span = set ? set.getBoundingClientRect().width + 10 : 0;
+      } else {
+        span = Math.max(0, track.scrollWidth - win.clientWidth);
+      }
+    }
+
+    function place(){ track.style.transform = "translate3d(" + (-off) + "px,0,0)"; }
+
+    function clamp(){
+      if (span <= 0) { off = 0; return; }
+      off = loop ? ((off % span) + span) % span : Math.min(Math.max(off, 0), span);
+    }
+
+    /* 3 or more photos: clone the set once so the loop has no seam */
+    function build(){
+      if (gal.dataset.ready || REDUCED) return;
+      if (!overflowing()) { measure(); return; }
+      gal.dataset.ready = "1";
+
+      var set = document.createElement("div");
+      set.style.cssText = "display:flex;gap:10px;flex:none;height:100%";
+      while (track.firstChild) set.appendChild(track.firstChild);
+      track.appendChild(set);
+
+      var clone = set.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.querySelectorAll("img").forEach(function (i) { i.alt = ""; i.draggable = false; });
+      track.appendChild(clone);
+
+      loop = true;
+      gal.classList.add("is-moving");
+      measure();
+      go = true; last = null;
+      requestAnimationFrame(step);
+    }
+
+    function step(now){
+      if (!go || drag || document.hidden) return;
+      if (last === null) last = now;
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (span <= 0) measure();
+      if (span > 0) { off += SPEED * dt; clamp(); place(); }
+      requestAnimationFrame(step);
+    }
+
+    /* --- swipe / drag — always available --- */
+    function down(x, id){
+      measure();
+      if (span <= 0) return;
+      drag = true; sx = x; so = off;
+      gal.style.cursor = "grabbing";
+      if (id !== undefined && gal.setPointerCapture) {
+        try { gal.setPointerCapture(id); } catch (err) {}
+      }
+    }
+    function move(x){
+      if (!drag) return;
+      off = so - (x - sx);
+      clamp(); place();
+    }
+    function up(){
+      if (!drag) return;
+      drag = false;
+      gal.style.cursor = "grab";
+      if (loop) { go = true; last = null; requestAnimationFrame(step); }
+    }
+
+    if (window.PointerEvent) {
+      gal.addEventListener("pointerdown", function (e) { down(e.clientX, e.pointerId); });
+      gal.addEventListener("pointermove", function (e) { move(e.clientX); });
+      gal.addEventListener("pointerup",     up);
+      gal.addEventListener("pointercancel", up);
+    } else {
+      gal.addEventListener("touchstart", function (e) { down(e.touches[0].clientX); }, { passive: true });
+      gal.addEventListener("touchmove",  function (e) { move(e.touches[0].clientX); }, { passive: true });
+      gal.addEventListener("touchend",   up);
+      gal.addEventListener("mousedown",  function (e) { e.preventDefault(); down(e.clientX); });
+      window.addEventListener("mousemove", function (e) { move(e.clientX); });
+      window.addEventListener("mouseup",   up);
+    }
+
+    /* pause the glide while the section is off screen or the tab is hidden */
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) {
+        if (!loop) return;
+        go = en[0].isIntersecting;
+        if (go) { last = null; requestAnimationFrame(step); }
+      }, { threshold: 0 }).observe(gal);
+    }
+    document.addEventListener("visibilitychange", function () {
+      last = null;
+      if (!document.hidden && go && loop) requestAnimationFrame(step);
+    });
+
+    if (window.matchMedia("(hover: hover)").matches) {
+      gal.addEventListener("mouseenter", function () { if (loop) go = false; });
+      gal.addEventListener("mouseleave", function () {
+        if (loop && !drag) { go = true; last = null; requestAnimationFrame(step); }
+      });
+    }
+
+    var rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { measure(); off = 0; place(); }, 120);
+    }, { passive: true });
+
+    gal.querySelectorAll("img").forEach(function (img) {
+      if (!img.complete) img.addEventListener("load", function () { build(); measure(); }, { once: true });
+    });
+
+    build(); measure();
+    window.addEventListener("load", function () { build(); measure(); });
+    setTimeout(function () { build(); measure(); }, 600);
+  });
+})();
