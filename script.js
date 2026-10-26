@@ -311,3 +311,25 @@ var REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     rt = setTimeout(function () { measure(); offset = 0; }, 120);
   }, { passive: true });
 })();
+
+
+
+
+
+/* 11. VIDEO TESTIMONIALS — load the player only on click */
+document.addEventListener("click", function (e) {
+  var btn = e.target.closest(".vt__play");
+  if (!btn) return;
+
+  var id = btn.getAttribute("data-yt");
+  if (!id) return;
+
+  var f = document.createElement("div");
+  f.className = "vt__frame";
+  f.innerHTML =
+    '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" ' +
+    'title="Student story" ' +
+    'allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" ' +
+    'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+  btn.replaceWith(f);
+});
