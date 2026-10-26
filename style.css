@@ -422,17 +422,16 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
 
 /* --- hero detail row: date · time · where · price --- */
 
-
-/* --- hero detail row: date · time · where · price --- */
 .meta{
   margin-inline:auto;
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:1px;
   margin-top:26px;
-  background:rgba(216,179,74,.26);
-  border:1px solid rgba(216,179,74,.36);
-  box-shadow:0 16px 38px rgba(0,0,0,.36);
+  background:rgba(36,30,30,.16);
+  border:1px solid rgba(36,30,30,.16);
+  border-radius:12px;overflow:hidden;
+  box-shadow:0 16px 38px rgba(0,0,0,.3);
 }
 
 .meta li{
@@ -440,19 +439,16 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
   display:flex;flex-direction:column;gap:9px;
   justify-content:space-between;
   padding:15px 15px 17px;
-  background:linear-gradient(160deg,#241420 0%,#190F15 100%);
+  background:var(--cream);
   transition:background .5s var(--ease);
 }
-
-
-/* accent bar wipes along the bottom on hover */
 .meta li::after{
   content:'';position:absolute;left:0;right:0;bottom:0;height:2px;
   background:linear-gradient(90deg,var(--berry),var(--gold));
   transform:scaleX(0);transform-origin:left;
   transition:transform .55s var(--ease);
 }
-.meta li:hover{background:linear-gradient(160deg,#321A2A 0%,#20131B 100%)}
+.meta li:hover{background:var(--white)}
 .meta li:hover::after{transform:scaleX(1)}
 
 .meta__top{display:flex;align-items:center;gap:9px}
@@ -460,22 +456,26 @@ h1,h2,h3{font-family:var(--display);font-weight:600}
 .meta__ic{
   flex:none;width:26px;height:26px;
   display:flex;align-items:center;justify-content:center;
-  color:var(--gold);
-  border:1px solid rgba(216,179,74,.4);
+  color:var(--berry);
+  border:1px solid rgba(196,47,104,.3);
+  border-radius:7px;
   transition:background .45s var(--ease),color .45s var(--ease),transform .55s var(--ease);
 }
 .meta__ic svg{width:14px;height:14px;display:block}
-.meta li:hover .meta__ic{background:var(--gold);color:var(--navy);transform:rotate(-5deg)}
+.meta li:hover .meta__ic{background:var(--berry);color:var(--white);transform:rotate(-5deg)}
 
 .meta__k{
-  font-size:8.5px;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--gold);
+  font-size:8.5px;font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--berry-dark);
 }
 .meta__v{
   font-family:var(--display);
-  font-size:15.5px;font-weight:600;line-height:1.3;color:var(--white);
+  font-size:15.5px;font-weight:700;line-height:1.3;color:var(--text);
 }
-.meta__v--price{color:var(--gold-light)}
+.meta__v--price{color:var(--berry)}
+
+
+
 
 
 /* --- HERO FRAME: circle medallion --- */
